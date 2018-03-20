@@ -13,7 +13,7 @@ while(True):
     page_Dylan = requete_Dylan.json()
 
     liste_Dylan = page_Dylan['Data']
-    choix_Dylan = str(input("mettre list pour la liste des produit, quit pour quitter ou le nom de la monnaie pour la conversion\n"))
+    choix_Dylan = str(input("mettre list pour la liste des Money, quit pour quitter ou le nom de la monnaie pour la conversion\n"))
 
     if (choix_Dylan == 'list'):
         for n in liste_Dylan :
@@ -23,8 +23,18 @@ while(True):
         break
 
     else :
-        requetes_Dylan = requests.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=" + choix_Dylan + ",USD")
-        valeurs_Dylan= requetes_Dylan.json()
-        valeur_Dylan = valeurs_Dylan['USD']
-        print ('USD : ' + str(valeur_Dylan))
-        print (choix_Dylan + ' : ' + str(valeurs_Dylan[choix_Dylan]))
+        compteur_Dylan = 0
+        verif_Dylan =0
+        for n in liste_Dylan :
+            compteur_Dylan +=1
+            if(liste_Dylan[n]['Symbol']== choix_Dylan):
+                requetes_Dylan = requests.get("https://min-api.cryptocompare.com/data/price?fsym="+choix_Dylan+"&tsyms=" + choix_Dylan + ",USD")
+                valeurs_Dylan= requetes_Dylan.json()
+                valeur_Dylan = valeurs_Dylan['USD']
+                print ('USD : ' + str(valeur_Dylan))
+                print (choix_Dylan + ' : ' + str(valeurs_Dylan[choix_Dylan]))
+            else :
+                verif_Dylan +=1
+        if(compteur_Dylan == verif_Dylan) :
+            print("veillez choisir une Money prposer dans la list")
+
