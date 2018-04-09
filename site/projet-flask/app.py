@@ -9,11 +9,15 @@ from apscheduler.triggers.interval import IntervalTrigger
 import atexit
 import requests
 import datetime
+import os
+from slackclient import SlackClient
 
 app = Flask(__name__)
 app.config.from_object('config')
 app.config.from_object('secret_config')
 
+slack_token = "xoxp-342639127040-342639127264-344459677879-5c0a5fa41c499b94893f932011acfcf7"
+sc = SlackClient(slack_token)
 
 def connect_db():
     g.mysql_connection = mysql.connector.connect(
@@ -64,6 +68,12 @@ def status_all():
             id = addr[0]
             adresse_web = addr[1]
             status = Recup_status(adresse_web)
+            if (int(status) != 200):
+                sc.api_call(
+                    "chat.postMessage",
+                    channel="bot",
+                    text=str(adresse_web)+"  "+str(status)
+                )
             test = datetime.datetime.now()
             date=test.strftime(f)
             db = get_db()
