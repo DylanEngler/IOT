@@ -85,7 +85,7 @@ atexit.register(lambda: scheduler.shutdown())
 @app.route('/')
 def index():
     db = get_db()
-    db.execute('SELECT a.id, a.adresse_web, h.reponse_requete FROM adresse a, historique h WHERE a.id = h.id_web GROUP BY a.id, a.adresse_web, h.reponse_requete having max(date_derniere_requete)')
+    db.execute('SELECT a.id, a.adresse_web, h.reponse_requete FROM adresse a, historique h WHERE a.id = h.id_web and h.date_derniere_requete=(SELECT MAX(date_derniere_requete) from historique hi where hi.id_web = a.id) GROUP BY a.id, a.adresse_web, h.reponse_requete')
     adresse = db.fetchall()
     return render_template("index.html", adresse = adresse)
 
