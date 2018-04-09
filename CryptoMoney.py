@@ -24,10 +24,10 @@ while(True):
 
     else :
         compteur_Dylan = 0
-        verif_Dylan =0
+        verif_Dylan = 0
         for n in liste_Dylan :
             compteur_Dylan +=1
-            if(liste_Dylan[n]['Symbol']== choix_Dylan):
+            if(liste_Dylan[n]['Symbol'] == choix_Dylan):
                 requetes_Dylan = requests.get("https://min-api.cryptocompare.com/data/price?fsym="+choix_Dylan+"&tsyms=" + choix_Dylan + ",USD")
                 valeurs_Dylan= requetes_Dylan.json()
                 valeur_Dylan = valeurs_Dylan['USD']
