@@ -19,6 +19,8 @@ app.config.from_object('secret_config')
 slack_token = "xoxp-342639127040-342639127264-344459677879-5c0a5fa41c499b94893f932011acfcf7"
 sc = SlackClient(slack_token)
 
+
+
 def connect_db():
     g.mysql_connection = mysql.connector.connect(
         host=app.config['DATABASE_HOST'],
@@ -94,18 +96,18 @@ atexit.register(lambda: scheduler.shutdown())
 
 @app.route('/')
 def index():
-    db = get_db()
-    db.execute('SELECT a.id, a.adresse_web, h.reponse_requete FROM adresse a, historique h WHERE a.id = h.id_web and h.date_derniere_requete=(SELECT MAX(date_derniere_requete) from historique hi where hi.id_web = a.id) GROUP BY a.id, a.adresse_web, h.reponse_requete')
-    adresse = db.fetchall()
-    return render_template("index.html", adresse = adresse)
+    md5_d77d5e503ad1439f585ac494268b351b = get_db()
+    md5_d77d5e503ad1439f585ac494268b351b.execute('SELECT a.id, a.adresse_web, h.reponse_requete FROM adresse a, historique h WHERE a.id = h.id_web and h.date_derniere_requete=(SELECT MAX(date_derniere_requete) from historique hi where hi.id_web = a.id) GROUP BY a.id, a.adresse_web, h.reponse_requete')
+    md5_4bef6bece607e237b5027b6d01a242aa = md5_d77d5e503ad1439f585ac494268b351b.fetchall()
+    return render_template("index.html", adresse = md5_4bef6bece607e237b5027b6d01a242aa)
 
 
 @app.route('/historique/<int:id>')
 def historique(id):
-    db = get_db()
-    db.execute('SELECT a.adresse_web, h.reponse_requete, h.date_derniere_requete from adresse a, historique h WHERE a.id = h.id_web AND a.id = %(id)s ORDER BY date_derniere_requete DESC', {'id': id})
-    historique = db.fetchall()
-    return render_template("historique.html", historique=historique)
+    md5_d77d5e503ad1439f585ac494268b351b = get_db()
+    md5_d77d5e503ad1439f585ac494268b351b.execute('SELECT a.adresse_web, h.reponse_requete, h.date_derniere_requete from adresse a, historique h WHERE a.id = h.id_web AND a.id = %(id)s ORDER BY date_derniere_requete DESC', {'id': id})
+    md5_a2dfcab51cb1743fe7d4c93735d1c604 = md5_d77d5e503ad1439f585ac494268b351b.fetchall()
+    return render_template("historique.html", md5_a2dfcab51cb1743fe7d4c93735d1c604=md5_a2dfcab51cb1743fe7d4c93735d1c604)
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -113,9 +115,9 @@ def login():
     email = str(request.form.get('email'))
     password = str(request.form.get('password'))
 
-    db = get_db()
-    db.execute('SELECT email, password, is_admin FROM user WHERE email = %(email)s', {'email': email})
-    users = db.fetchall()
+    md5_d77d5e503ad1439f585ac494268b351b = get_db()
+    md5_d77d5e503ad1439f585ac494268b351b.execute('SELECT email, password, is_admin FROM user WHERE email = %(email)s', {'email': email})
+    users = md5_d77d5e503ad1439f585ac494268b351b.fetchall()
 
     valid_user = False
     for user in users:
@@ -131,13 +133,12 @@ def login():
 
 @app.route('/admin/')
 def admin():
-
-    db = get_db()
-    db.execute('SELECT id, adresse_web FROM adresse')
-    adresse = db.fetchall()
+    md5_d77d5e503ad1439f585ac494268b351b = get_db()
+    md5_d77d5e503ad1439f585ac494268b351b.execute('SELECT id, adresse_web FROM adresse')
+    md5_4bef6bece607e237b5027b6d01a242aa = md5_d77d5e503ad1439f585ac494268b351b.fetchall()
     if not session.get('user') or not session.get('user')[2]:
         return redirect(url_for('login'))
-    return render_template('admin.html', user=session['user'], adresse=adresse)
+    return render_template('admin.html', user=session['user'], md5_4bef6bece607e237b5027b6d01a242aa=md5_4bef6bece607e237b5027b6d01a242aa)
 
 @app.route('/admin/add/',methods=['GET', 'POST'])
 def admin_add() :
@@ -146,8 +147,8 @@ def admin_add() :
 
     if request.method == 'POST':
         page = str(request.form.get('Page'))
-        db = get_db()
-        db.execute('INSERT INTO adresse (adresse_web) VALUES (%(page)s)', {'page': page})
+        md5_d77d5e503ad1439f585ac494268b351b = get_db()
+        md5_d77d5e503ad1439f585ac494268b351b.execute('INSERT INTO adresse (adresse_web) VALUES (%(page)s)', {'page': page})
         commit()
         return redirect(url_for('admin'))
 
@@ -159,18 +160,18 @@ def editer(id):
 
     if not session.get('user') or not session.get('user')[2]:
         return redirect(url_for('login'))
-    db = get_db()
+    md5_d77d5e503ad1439f585ac494268b351b = get_db()
 
     if request.method == 'POST':
         page = str(request.form.get('Page'))
-        db.execute('UPDATE adresse SET adresse_web = %(page)s WHERE id = %(id)s', {'page': page,'id': id})
+        md5_d77d5e503ad1439f585ac494268b351b.execute('UPDATE adresse SET adresse_web = %(page)s WHERE id = %(id)s', {'page': page,'id': id})
         commit()
         return redirect(url_for('admin'))
 
     else:
-        db.execute('SELECT id, adresse_web FROM adresse WHERE id = %(id)s', {'id': id})
-        adresse = db.fetchone()
-        return render_template('admin_edit.html', user=session['user'], adresse=adresse)
+        md5_d77d5e503ad1439f585ac494268b351b.execute('SELECT id, adresse_web FROM adresse WHERE id = %(id)s', {'id': id})
+        md5_4bef6bece607e237b5027b6d01a242aa = md5_d77d5e503ad1439f585ac494268b351b.fetchone()
+        return render_template('admin_edit.html', user=session['user'], md5_4bef6bece607e237b5027b6d01a242aa=md5_4bef6bece607e237b5027b6d01a242aa)
 
 
 @app.route('/admin/supprimer/<int:id>', methods=['GET', 'POST'])
@@ -178,16 +179,16 @@ def supprimer(id):
     if not session.get('user') or not session.get('user')[2]:
         return redirect(url_for('login'))
 
-    db = get_db()
+    md5_d77d5e503ad1439f585ac494268b351b = get_db()
     if request.method == 'POST':
-        db.execute('DELETE FROM adresse WHERE id = %(id)s', {'id': id})
+        md5_d77d5e503ad1439f585ac494268b351b.execute('DELETE FROM adresse WHERE id = %(id)s', {'id': id})
         commit()
         return redirect(url_for('admin'))
 
     else:
-        db.execute('SELECT id, adresse_web FROM adresse WHERE id = %(id)s', {'id': id})
-        adresse = db.fetchone()
-        return render_template('admin_sup.html', user=session['user'], adresse=adresse)
+        md5_d77d5e503ad1439f585ac494268b351b.execute('SELECT id, adresse_web FROM adresse WHERE id = %(id)s', {'id': id})
+        md5_4bef6bece607e237b5027b6d01a242aa = md5_d77d5e503ad1439f585ac494268b351b.fetchone()
+        return render_template('admin_sup.html', user=session['user'], md5_4bef6bece607e237b5027b6d01a242aa=md5_4bef6bece607e237b5027b6d01a242aa)
 
 @app.route('/admin/logout/')
 def admin_logout():
@@ -201,5 +202,6 @@ def close_db (error):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
+
 
 

@@ -33,14 +33,14 @@
         </input>
     </a>
 
-     {% for adresse in adresse %}
+     {% for md5_4bef6bece607e237b5027b6d01a242aa in md5_4bef6bece607e237b5027b6d01a242aa %}
          <p>
-             {{ adresse[0] }} {{ adresse[1] }}
-             <a href="{{ url_for('editer', id=adresse[0]) }}">
+             {{ md5_4bef6bece607e237b5027b6d01a242aa[0] }} {{ md5_4bef6bece607e237b5027b6d01a242aa[1] }}
+             <a href="{{ url_for('editer', id=md5_4bef6bece607e237b5027b6d01a242aa[0]) }}">
                 <input type="button" value="editer">
                 </input>
              </a>
-             <a href="{{ url_for('supprimer', id=adresse[0]) }}">
+             <a href="{{ url_for('supprimer', id=md5_4bef6bece607e237b5027b6d01a242aa[0]) }}">
                 <input type="button" value="supprimer">
                 </input>
              </a>
